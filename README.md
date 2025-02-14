@@ -1,26 +1,25 @@
 # PDF Data Extractor
 
 ## Overview
-This Python program extracts structured data from PDF files using predefined templates. It processes multiple PDFs in a specified folder and extracts values such as GST numbers and monetary amounts based on the given template. The extracted data is then saved as a CSV file.
+This Python program extracts structured data from PDF files using predefined templates. It processes multiple PDFs in a specified folder and extracts tables using Tabula, then saves the extracted data to an Excel file.
 
 ## Features
 - Extracts tabular data from PDFs using predefined template coordinates.
 - Supports batch processing of multiple PDFs in a selected folder.
-- Provides a graphical user interface (GUI) for easy file selection and execution.
-- Saves extracted data to a CSV file for further analysis.
+- Saves extracted data to an Excel file for better readability.
+- Uses a graphical file dialog for selecting input and output locations.
 
 ## Requirements
 Before running the program, ensure you have the following dependencies installed:
 
 - Python 3.x
-- `tkinter` (built-in with Python)
 - `pandas`
 - `tabula-py`
-- `PyPDF2`
+- `openpyxl`
 
 You can install the required packages using the following command:
 ```sh
-pip install pandas tabula-py PyPDF2
+pip install pandas tabula-py openpyxl
 ```
 
 Additionally, `Java` must be installed and configured for `tabula-py` to work correctly.
@@ -39,28 +38,26 @@ Run the script using Python:
 python main.py
 ```
 
-### 3. Using the GUI
-1. **Select Source Folder:** Choose the folder containing the PDF files to process.
+### 3. Using the File Dialogs
+1. **Select Folder:** Choose the folder containing the PDF files to process.
 2. **Select Template File:** Choose a JSON file containing predefined extraction coordinates.
-3. **Select Output File:** Specify a CSV file where extracted data will be saved.
-4. **Click "Start Processing"** to extract data and save it.
+3. **Select Output File:** Specify an Excel file where extracted data will be saved.
+4. The program will process the PDFs and save all extracted tables to the selected Excel file.
 
 ## Template File Format
-The template file should be a JSON file containing coordinate areas for data extraction. Example format:
+The template file should be a JSON file containing coordinate areas for data extraction, as required by Tabula. Example format:
 ```json
 [
     {"x1": 100, "y1": 200, "x2": 400, "y2": 250},
     {"x1": 150, "y1": 300, "x2": 450, "y2": 350}
 ]
 ```
-These coordinates define areas where specific data fields (e.g., GST numbers or monetary values) are located in the PDF.
+These coordinates define areas where specific data fields (e.g., tables) are located in the PDF.
 
 ## Output Format
-The extracted data is saved in CSV format with columns:
-- **File Name** - Name of the processed PDF file.
-- **GST No** - Extracted GST number.
-- **Goods Value** - Extracted monetary value.
-- **Total Value** - Extracted total amount.
+The extracted data is saved in Excel format with:
+- **Sheet Name:** `All_Tables`
+- **Columns:** Extracted table data from PDFs
 
 ## Troubleshooting
 - If `tabula-py` fails to read PDFs, ensure Java is installed and added to the system PATH.
@@ -70,5 +67,5 @@ The extracted data is saved in CSV format with columns:
 This project is open-source.
 
 ## Author
-Ilavarasan 
+Ilavarasan
 
