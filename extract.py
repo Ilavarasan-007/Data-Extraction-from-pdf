@@ -2,6 +2,7 @@ import os
 import tabula
 import pandas as pd
 from tkinter import Tk, filedialog
+from openpyxl import load_workbook
 
 # Function to select a folder using a dialog
 def select_folder():
@@ -59,16 +60,31 @@ with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
                 if tables:
                     print(f"Extracted tables from {filename}:")
                     
+                    # Access the workbook and worksheet
+                    workbook = writer.book
+                    if 'All_Tables' not in writer.sheets:
+                        worksheet = workbook.create_sheet('All_Tables')
+                        writer.sheets['All_Tables'] = worksheet
+                    else:
+                        worksheet = writer.sheets['All_Tables']
+
+                    # Write the file name in the first column (column A)
+                    worksheet.cell(row=row_index + 1, column=1, value=filename)
+
                     # Loop through the tables extracted from the current PDF
                     for table_idx, table in enumerate(tables, start=1):
                         print(f"Table {table_idx} from {filename}:")
                         print(table)  # Print each extracted table
                         
                         # Write the table to the Excel sheet at the appropriate position (row, column)
-                        table.to_excel(writer, sheet_name='All_Tables', startrow=row_index, startcol=table_idx-1, index=False, header=True)
+                        table.to_excel(writer, sheet_name='All_Tables', startrow=row_index, startcol=table_idx, index=False, header=True)
+
+                    # Add a hyperlink to the PDF file in the last column
+                    last_col = len(tables) + 2  # Adjust the column index for the hyperlink
+                    worksheet.cell(row=row_index + 1, column=last_col).value = f'=HYPERLINK("{input_path}", "Open PDF")'
 
                     # After storing all tables for this PDF, move to the next row
-                    row_index += 1
+                    row_index += len(tables[0]) + 1  # Increment row index based on the first table's row count
                 else:
                     print(f"No tables found in {filename}")
             
