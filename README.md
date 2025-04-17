@@ -28,7 +28,7 @@ Additionally, **Java must be installed and available in your system path**, as `
 
 1. **Run the script**:
    ```bash
-   python extract_pdf_tables_to_excel.py
+   python extract.py
    ```
 
 2. **Choose the input folder** when prompted – this should contain all the PDF files you want to extract tables from.
