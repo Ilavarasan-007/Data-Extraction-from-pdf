@@ -1,67 +1,71 @@
-# PDF Data Extractor
+# PDF Table Extractor to Excel using Tabula and Tkinter
 
-## Overview
-This Python program extracts structured data from PDF files using predefined templates. It processes multiple PDFs in a specified folder and extracts tables using Tabula, then saves the extracted data to an Excel file.
+This Python script allows you to **extract tables from multiple PDF files** using a Tabula JSON template and **consolidate** the extracted tables into a **single Excel workbook**. The script includes a simple **GUI-based file picker** using `tkinter`.
 
 ## Features
-- Extracts tabular data from PDFs using predefined template coordinates.
-- Supports batch processing of multiple PDFs in a selected folder.
-- Saves extracted data to an Excel file for better readability.
-- Uses a graphical file dialog for selecting input and output locations.
+
+- Select a folder containing multiple PDFs.
+- Select a Tabula JSON extraction template.
+- Automatically extract tables from each PDF using the template.
+- Combine all tables into one Excel sheet with:
+  - Filenames as labels.
+  - Hyperlinks to the original PDFs.
+- Output is saved in a single `.xlsx` file.
 
 ## Requirements
-Before running the program, ensure you have the following dependencies installed:
 
-- Python 3.x
-- `pandas`
-- `tabula-py`
-- `openpyxl`
+### Python Libraries
 
-You can install the required packages using the following command:
-```sh
-pip install pandas tabula-py openpyxl
+Ensure you have the following libraries installed:
+
+```bash
+pip install pandas openpyxl tabula-py
 ```
 
-Additionally, `Java` must be installed and configured for `tabula-py` to work correctly.
+Additionally, **Java must be installed and available in your system path**, as `tabula-py` is a wrapper for the Java-based Tabula.
 
-## Installation & Usage
+## How to Use
 
-### 1. Clone or Download the Repository
-```sh
-git clone https://github.com/your-repository/pdf-data-extractor.git
-cd pdf-data-extractor
-```
+1. **Run the script**:
+   ```bash
+   python extract_pdf_tables_to_excel.py
+   ```
 
-### 2. Run the Program
-Run the script using Python:
-```sh
-python main.py
-```
+2. **Choose the input folder** when prompted – this should contain all the PDF files you want to extract tables from.
 
-### 3. Using the File Dialogs
-1. **Select Folder:** Choose the folder containing the PDF files to process.
-2. **Select Template File:** Choose a JSON file containing predefined extraction coordinates.
-3. **Select Output File:** Specify an Excel file where extracted data will be saved.
-4. The program will process the PDFs and save all extracted tables to the selected Excel file.
+3. **Select your Tabula JSON template** – this controls how tables are detected and extracted from the PDFs.
 
-## Template File Format
-The template file should be a JSON file containing coordinate areas for data extraction, as required by Tabula. Example format:
-```json
-[
-    {"x1": 100, "y1": 200, "x2": 400, "y2": 250},
-    {"x1": 150, "y1": 300, "x2": 450, "y2": 350}
-]
-```
-These coordinates define areas where specific data fields (e.g., tables) are located in the PDF.
+4. **Choose the output location and file name** for the Excel file.
+
+5. The script will process all PDFs in the folder and write the tables to the Excel sheet `All_Tables`.
 
 ## Output Format
-The extracted data is saved in Excel format with:
-- **Sheet Name:** `All_Tables`
-- **Columns:** Extracted table data from PDFs
+
+- **Excel Sheet Name:** `All_Tables`
+- Each row begins with the **PDF filename**.
+- Tables are inserted in adjacent columns.
+- A **hyperlink** to the original PDF is added at the end of each row.
+- Rows are spaced based on the number of rows in the first table extracted from each file.
+
+## Notes
+
+- This script assumes all PDFs follow a similar format compatible with the selected Tabula template.
+- If no tables are found or an error occurs for a PDF, the script will continue processing the rest.
+- You can modify the script to handle multiple sheets or different layouts as needed.
+
+## Example Tabula Template
+
+To create a JSON template:
+1. Open [Tabula GUI](https://tabula.technology/).
+2. Load a sample PDF.
+3. Select the areas containing tables.
+4. Export the selection as a JSON template.
 
 ## Troubleshooting
-- If `tabula-py` fails to read PDFs, ensure Java is installed and added to the system PATH.
-- If no data is extracted, check if the template coordinates match the PDF layout.
+
+- **Tabula Not Working?** Ensure Java is properly installed and accessible via `java -version`.
+- **Incorrect Extraction?** Check your Tabula template. It must match the layout of the PDF tables.
+- **Empty Excel Output?** Ensure the PDFs actually contain extractable tables (not scanned images).
 
 ## License
 This project is open-source.
